@@ -111,10 +111,10 @@ void enviarBigEndian(float numero) {
     ´´´
 
 RT// Da los valores iniciales para el codigo como, la velocidad, el puerto, y lo abre.
-    ´´´
-    byte[] data = { 0x01, 0x3F, 0x45};
-    _serialPort.Write(data,0,1);
-    ´´´
+    
+      byte[] data = { 0x01, 0x3F, 0x45};
+      _serialPort.Write(data,0,1);
+    
 RT// Crea un arreglo de 3 bytes y envia el primero por el puerto serial
     ´´´
     byte[] buffer =new byte[4];
