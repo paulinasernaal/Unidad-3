@@ -24,17 +24,48 @@ en este punto, hagamos un repaso de las funciones que han apoyado la comunicaci�
   Envía datos al puerto serial. Puede enviar un solo byte, una cadena de texto, o una serie de bytes. Es utilizado para transmitir datos desde Arduino hacia otro dispositivo.
 Nótese que la siguiente función no está en la lista de repaso:
 
-- `Serial.readBytesUntil()` ¿Sospecha por qué se ha excluido? La razón es porque en un protocolo binario usualmente no tiene un carácter de FIN DE MENSAJE, como si ocurre con los protocolos ASCII, 
+`Serial.readBytesUntil()` ¿Sospecha por qué se ha excluido? La razón es porque en un protocolo binario usualmente no tiene un carácter de FIN DE MENSAJE, como si ocurre con los protocolos ASCII, 
 donde usualmente el último carácter es el `\n`.
 
 La razón por la cual la función Serial.readBytesUntil() ha sido excluida en el repaso es porque esta función está diseñada para leer datos del puerto serial hasta que se 
 encuentre un carácter de terminación específico, lo cual no es útil en protocolos binarios. En protocolos binarios, no hay un carácter definido que marque el fin de un 
 mensaje, como ocurre en los protocolos ASCII, donde comúnmente se utiliza el carácter \n (nueva línea) como delimitador de fin de mensaje.
 
+## Actividad # 3: ¿Qué es el endian?
 
+Endian es un concepto relacionado con el orden en que los bytes de un dato se almacenan o transmiten en la memoria de un dispositivo o sistema. Dado que los números más grandes (como enteros de 16, 32 o 64 bits, o números flotantes) ocupan varios bytes en la memoria, el orden en que estos bytes se organizan varía según la arquitectura del sistema. 
 
+- Little-endian:
+  En este formato, los bytes menos significativos de un número se almacenan primero (en la dirección de memoria más baja) y los bytes más significativos se almacenan después (en las direcciones de memoria más altas).
+- Big-endian:
+  En este formato, los bytes más significativos de un número se almacenan primero (en la dirección de memoria más baja) y los bytes menos significativos se almacenan después (en las direcciones de memoria más altas).
 
+## Actividad # 4: transmitir números en punto flotante
+- ¿En qué *endian* estamos transmitiendo el número?
+  se esta transmitiendo en little endian ya que primero llega el D5 y de ultimo el 45
+- Y si queremos transmitir en el *endian* contrario, ¿Cómo se modifica el código?
+  ´´´
+void setup() {
+    Serial.begin(115200);
+}
 
+void loop() {
+    static float num = 3589.3645;
+    uint8_t* bytePointer = (uint8_t*) &num;  // Puntero a los bytes del float
+
+    if (Serial.available()) {
+        if (Serial.read() == 's') {
+            // Enviar los 4 bytes invirtiéndolos de forma compacta
+            for (int i = 3; i >= 0; i--) {
+                Serial.write(bytePointer[i]);
+            }
+        }
+    }
+}
+
+´´´
+## Actividad # 5: envía dos números en punto flotante
+´´´
 void setup() {
     Serial.begin(115200);
 }
@@ -69,3 +100,4 @@ void enviarBigEndian(float numero) {
         Serial.write(bytePointer[i]);
     }
 }
+´´´
