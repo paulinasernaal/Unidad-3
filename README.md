@@ -102,21 +102,21 @@ void enviarBigEndian(float numero) {
 }
 ´´´
 ## Actividad # 6: aplicación interactiva:
-´´´
+    ´´´
     SerialPort _serialPort =new SerialPort();
     _serialPort.PortName = "/dev/ttyUSB0";
     _serialPort.BaudRate = 115200;
     _serialPort.DtrEnable =true;
     _serialPort.Open();
-´´´
+    ´´´
 
 RT// Da los valores iniciales para el codigo como, la velocidad, el puerto, y lo abre.
-´´´
+    ´´´
     byte[] data = { 0x01, 0x3F, 0x45};
     _serialPort.Write(data,0,1);
-´´´
+    ´´´
 RT// Crea un arreglo de 3 bytes y envia el primero por el puerto serial
-´´´
+    ´´´
     byte[] buffer =new byte[4];
     .
     .
@@ -129,6 +129,6 @@ RT// Crea un arreglo de 3 bytes y envia el primero por el puerto serial
         Console.Write(buffer[i].ToString("X2") + " ");
     }
     }
-´´´
+    ´´´
 RT//  Verifica si hay 4 bytes disponibles en el puerto serial, los lee y los imprime en la consola en formato hexadecimal.
 
